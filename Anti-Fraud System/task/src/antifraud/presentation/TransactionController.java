@@ -26,7 +26,7 @@ public class TransactionController {
         this.userService = userService;
     }
     /**
-     * Add a new recipe.
+     * Process a transaction.
      *
      * @param transaction Transaction to process
      * @param userDetails The user's authentication parameters that is processing the transaction
