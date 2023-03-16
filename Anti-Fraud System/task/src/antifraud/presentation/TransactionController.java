@@ -1,31 +1,46 @@
 package antifraud.presentation;
 
+import antifraud.model.Transaction;
+import antifraud.model.User;
+import antifraud.security.UserDetailsImpl;
 import antifraud.service.TransactionService;
+import antifraud.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/antifraud")
 public class TransactionController {
     private TransactionService transactionService;
-
-    public TransactionController(TransactionService transactionService) {
+    private UserService userService;
+    public TransactionController(TransactionService transactionService, UserService userService) {
         this.transactionService = transactionService;
+        this.userService = userService;
     }
+    /**
+     * Add a new recipe.
+     *
+     * @param transaction Transaction to process
+     * @param userDetails The user's authentication parameters that is processing the transaction
+     * @return A response entity with the status of the transaction
+     */
+    @PostMapping("/transaction")
+    public ResponseEntity processTransaction(@RequestBody @Valid Transaction transaction, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        String userName = userDetails.getUsername();
+        Optional<User> currentUser = userService.findUser(userName);
 
-    @PostMapping("/api/antifraud/transaction")
-    public ResponseEntity postTransaction(@RequestBody Map<String, Long> transaction) {
-
-        if (transaction.get("amount" ) != null) {
-            Long amount = transaction.get("amount");
-            if (amount > 0) {
-                return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", transactionService.checkTransaction(amount)));
-            }
+        if(currentUser.isPresent()) {
+            Long amount = transaction.getAmount();
+            return transactionService.checkAmount(amount);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }
