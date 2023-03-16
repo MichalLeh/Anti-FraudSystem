@@ -1,14 +1,13 @@
 package antifraud.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * This class represents a user. It is used for authentication and authorization.
@@ -20,15 +19,18 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 public class User {
     @Id
-    @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
-    @Column
-    @NotBlank
-    @Pattern(regexp = ".+@.+\\..+")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @NotEmpty
+    private String name;
+    @NotEmpty
     private String username;
-    @Column
-    @NotBlank
-    @Length(min=8)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotEmpty
     private String password;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String role = ERole.ROLE_MERCHANT.label;
+    @JsonIgnore
+    private boolean isAccountNonLocked = false;
 }
