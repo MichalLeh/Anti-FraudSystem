@@ -28,7 +28,7 @@ public class TransactionController {
     /**
      * Process a transaction.
      *
-     * @param transaction Transaction to process
+     * @param transaction Transaction to be processed
      * @param userDetails The user's authentication parameters that is processing the transaction
      * @return A response entity with the status of the transaction
      */
