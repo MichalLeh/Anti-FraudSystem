@@ -39,7 +39,7 @@ public class TransactionController {
 
         if(currentUser.isPresent()) {
             Long amount = transaction.getAmount();
-            return transactionService.checkAmount(amount);
+            return transactionService.processTransaction(amount);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
