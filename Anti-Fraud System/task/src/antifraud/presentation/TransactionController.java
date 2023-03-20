@@ -9,12 +9,10 @@ import antifraud.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -54,5 +52,25 @@ public class TransactionController {
     public ResponseEntity addIp(@RequestBody @Valid IPAddress ip) {
         return transactionService.addSuspiciousIP(ip);
     }
-
+    /**
+     * Delete a specific IP address.
+     *
+    // * @param userDetails The user's authentication parameters that is deleting the recipe
+     * @param ip          The IP address to be deleted
+     * @return A response entity with the status of the deletion
+     */
+    @DeleteMapping("/suspicious-ip/{ip}")
+    //@AuthenticationPrincipal UserDetails userDetails
+    public ResponseEntity deleteIp(@PathVariable String ip) {
+        return transactionService.deleteSuspiciousIP(ip);
+    }
+    /**
+     * Get IP addresse(s).
+     *
+     * @return A list of all IP addresses in database
+     */
+    @GetMapping("/suspicious-ip")
+    public List<IPAddress> getIPAddresses() {
+        return transactionService.findAll();
+    }
 }
