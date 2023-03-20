@@ -1,5 +1,6 @@
 package antifraud.presentation;
 
+import antifraud.model.IPAddress;
 import antifraud.model.Transaction;
 import antifraud.model.User;
 import antifraud.security.UserDetailsImpl;
@@ -43,4 +44,15 @@ public class TransactionController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+    /**
+     * Process an IP address.
+     *
+     * @param ip IP address to be processed
+     * @return A response entity with the status of the processing
+     */
+    @PostMapping("/suspicious-ip")
+    public ResponseEntity addIp(@RequestBody @Valid IPAddress ip) {
+        return transactionService.addSuspiciousIP(ip);
+    }
+
 }
