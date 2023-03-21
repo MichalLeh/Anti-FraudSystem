@@ -1,5 +1,6 @@
 package antifraud.presentation;
 
+import antifraud.model.Card;
 import antifraud.model.IPAddress;
 import antifraud.model.Transaction;
 import antifraud.model.User;
@@ -37,16 +38,15 @@ public class TransactionController {
         Optional<User> currentUser = userService.findUser(userName);
 
         if(currentUser.isPresent()) {
-            Long amount = transaction.getAmount();
-            return transactionService.processTransaction(amount);
+            return transactionService.processTransaction(transaction);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     /**
-     * Process an IP address.
+     * Add an IP address into database.
      *
-     * @param ip IP address to be processed
-     * @return A response entity with the status of the processing
+     * @param ip IP address to be added
+     * @return A response entity with the status of the addition
      */
     @PostMapping("/suspicious-ip")
     public ResponseEntity addIp(@RequestBody @Valid IPAddress ip) {
@@ -55,12 +55,10 @@ public class TransactionController {
     /**
      * Delete a specific IP address.
      *
-    // * @param userDetails The user's authentication parameters that is deleting the recipe
      * @param ip          The IP address to be deleted
      * @return A response entity with the status of the deletion
      */
     @DeleteMapping("/suspicious-ip/{ip}")
-    //@AuthenticationPrincipal UserDetails userDetails
     public ResponseEntity deleteIp(@PathVariable String ip) {
         return transactionService.deleteSuspiciousIP(ip);
     }
@@ -72,5 +70,34 @@ public class TransactionController {
     @GetMapping("/suspicious-ip")
     public List<IPAddress> getIPAddresses() {
         return transactionService.findAll();
+    }
+    /**
+     * Add a Card into database.
+     *
+     * @param card Card to be added
+     * @return A response entity with the status of the addition
+     */
+    @PostMapping("/stolencard")
+    public ResponseEntity addStolenCard(@RequestBody @Valid Card card) {
+        return transactionService.addStolenCard(card);
+    }
+    /**
+     * Delete a specific card.
+     *
+     * @param number        The card to be deleted
+     * @return A response entity with the status of the deletion
+     */
+    @DeleteMapping("/stolencard/{number}")
+    public ResponseEntity deleteCard(@PathVariable String number) {
+        return transactionService.deleteSuspiciousCard(number);
+    }
+    /**
+     * Get card(s).
+     *
+     * @return A list of all cards in database
+     */
+    @GetMapping("/stolencard")
+    public List<Card> getCards() {
+        return transactionService.findAllCards();
     }
 }
