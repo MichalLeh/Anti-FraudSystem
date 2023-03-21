@@ -2,6 +2,7 @@ package antifraud.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,12 +45,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .csrf().disable().headers().frameOptions().disable() // for Postman, the H2 console
             .and()
             .authorizeRequests() // manage access
-            .mvcMatchers("/api/auth/user/*", "/api/auth/access", "/api/auth/role").hasAuthority("ROLE_ADMINISTRATOR")
+            .mvcMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
+            .mvcMatchers("/actuator/shutdown", "/h2-console/*").permitAll() // needs to run test
+            .mvcMatchers("/api/antifraud/transaction").hasAnyAuthority("ROLE_MERCHANT")
             .mvcMatchers("/api/auth/list").hasAnyAuthority("ROLE_ADMINISTRATOR", "ROLE_SUPPORT")
-            .mvcMatchers("/api/antifraud/transaction").hasAuthority("ROLE_MERCHANT")
-            .antMatchers("/actuator/shutdown").permitAll() // needs to run test
-            .anyRequest().permitAll()
-            // other matchers
+            .mvcMatchers("/api/antifraud/suspicious-ip/**").hasAnyAuthority("ROLE_SUPPORT")
+            .mvcMatchers("/api/antifraud/stolencard/**").hasAnyAuthority("ROLE_SUPPORT")
+            .mvcMatchers("/api/auth/user/**", "/api/auth/role", "/api/auth/access").hasAnyAuthority("ROLE_ADMINISTRATOR")
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // no session
