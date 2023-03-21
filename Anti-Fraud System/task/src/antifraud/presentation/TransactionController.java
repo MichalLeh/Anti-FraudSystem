@@ -89,7 +89,7 @@ public class TransactionController {
      */
     @DeleteMapping("/stolencard/{number}")
     public ResponseEntity deleteCard(@PathVariable String number) {
-        return transactionService.deleteSuspiciousCard(number);
+        return transactionService.deleteStolenCard(number);
     }
     /**
      * Get card(s).
