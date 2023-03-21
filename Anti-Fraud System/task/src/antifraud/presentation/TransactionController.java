@@ -69,7 +69,7 @@ public class TransactionController {
      */
     @GetMapping("/suspicious-ip")
     public List<IPAddress> getIPAddresses() {
-        return transactionService.findAll();
+        return transactionService.findAllIPs();
     }
     /**
      * Add a Card into database.
