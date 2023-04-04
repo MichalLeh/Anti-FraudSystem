@@ -33,7 +33,7 @@ like [Postman](https://www.getpostman.com/).
 - [Lock/Unlock an user](#lock/unlock-an-user)
 - [Update user role](#Update-user-role)
 - [Post a new transaction](#post-a-new-transaction)
-
+- [Save a suspicious IP address](#save-a-suspicious-IP-address)
 
 ## API Endpoints
 
@@ -240,3 +240,41 @@ _'+' means the user with given role can access given endpoint. '-' means the use
    "info": "none"
 }
 ```
+#### Save a suspicious IP address
+
+#### Objectives
+
+- Endpoint that saves suspicious IP addresses to the database;
+- If successful, respond with the `HTTP OK` status `200`;
+- If an IP is already in the database, respond with the `HTTP CONFLICT` status `409`;
+- If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
+
+#### Delete a suspicious IP address
+
+#### Objectives
+
+- Endpoint that deletes IP addresses from the database;
+- If successful, respond with the `HTTP OK` status `200`;
+- If an IP is not found in the database, respond with the `HTTP NOT FOUND` status `404`;
+- If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
+
+#### Get all suspicious IP addresses
+
+#### Objectives
+
+- Endpoint that shows IP addresses in the database;
+- If successful, respond with the `HTTP OK` status `200` and body with an array of JSON objects representing IP address sorted by ID in ascending order (or an empty array if the database is empty);
+
+#### Save a stolen card
+
+#### Objectives
+
+
+#### Delete a stolen card
+
+#### Objectives
+
+
+#### Get all stolen cards
+
+#### Objectives
