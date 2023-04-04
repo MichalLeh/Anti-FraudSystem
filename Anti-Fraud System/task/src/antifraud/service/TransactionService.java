@@ -2,18 +2,20 @@ package antifraud.service;
 
 import antifraud.model.Card;
 import antifraud.model.IPAddress;
+import antifraud.model.Region;
 import antifraud.model.Transaction;
 import antifraud.persistance.CardRepository;
 import antifraud.persistance.IPRepository;
+import antifraud.persistance.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -22,9 +24,18 @@ public class TransactionService {
     private IPRepository ipRepository;
     @Autowired
     private CardRepository cardRepository;
-    public TransactionService(IPRepository ipRepository, CardRepository cardRepository) {
+    @Autowired
+    private TransactionRepository transactionRepository;
+    private List<LocalDateTime> datesOfTransactions = new LinkedList<>();
+    private List<String> ipAddressesList = new LinkedList<>();
+    private List<String> regionsList = new LinkedList<>();
+    private List<String> violation = new ArrayList<>();
+
+    public TransactionService(IPRepository ipRepository, CardRepository cardRepository,
+                              TransactionRepository transactionRepository) {
         this.ipRepository = ipRepository;
         this.cardRepository = cardRepository;
+        this.transactionRepository = transactionRepository;
     }
     /**
      * Add suspicious IP address.
@@ -111,13 +122,21 @@ public class TransactionService {
         if (!isCardValid(transaction.getNumber()) || !isPatternValid(transaction.getIp())) {
            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        List<String> violation = new ArrayList<>();
 
-        String amountIs = processAmount(transaction.getAmount());
-
-        if (amountIs.equals("PROHIBITED")) {
-            violation.add("amount");
+        if (!Region.valueOfLabel(transaction.getRegion())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        Map<String, Integer> action = new HashMap<>();
+        action.put("ALLOWED", 1);
+        action.put("MANUAL_PROCESSING", 2);
+        action.put("PROHIBITED", 3);
+
+        transactionRepository.save(transaction);
+
+        violation.clear();
+
+        String amountIs = "";
+
         if (cardRepository.findByNumberIgnoreCase(transaction.getNumber()).isPresent()) {
             violation.add("card-number");
             amountIs = "PROHIBITED";
@@ -128,14 +147,96 @@ public class TransactionService {
         }
         // if the amount yield MANUAL_PROCESSING but the final result is PROHIBITED
         // then 'amount' should not be listed as a reason for the 'info'
-        if (violation.isEmpty()) {
-            if (amountIs.equals("MANUAL_PROCESSING")) {
+        //
+        if (!amountIs.equals("PROHIBITED")) {
+            amountIs = checkTransactions(transaction.getNumber(), transaction.getDate());
+            if (!processAmount(transaction.getAmount()).equals("ALLOWED")) {
+                amountIs = processAmount(transaction.getAmount());
                 violation.add("amount");
-            } else {
-                violation.add("none");
+            }
+        } else {
+            if (processAmount(transaction.getAmount()).equals("PROHIBITED")) {
+                violation.add("amount");
+                checkTransactions(transaction.getNumber(), transaction.getDate());
             }
         }
+        if (violation.isEmpty()) {
+            violation.add("none");
+        }
+        Collections.sort(violation);
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("result", amountIs, "info", String.join(", ", violation)));
+    }
+    private String checkTransactions(String number, LocalDateTime transDate) {
+        List<Transaction> trans = transactionRepository.findByNumberIgnoreCaseOrderByIdDesc(number);
+
+        String amountIs = "ALLOWED";
+
+        for (int i = 0; i < trans.size(); i++) {
+//            System.out.println("Duration between: " + Duration.between(trans.get(0).getDate(), trans.get(i).getDate()).getSeconds());
+            if (Duration.between(trans.get(0).getDate(), trans.get(i).getDate()).getSeconds()*(-1) < 3600) {
+//                System.out.println("Compared dates: " + transDate + " " + trans.get(i).getDate());
+//                System.out.println(Duration.between(transDate, trans.get(i).getDate()).getSeconds() <= 0);
+                if (Duration.between(transDate, trans.get(i).getDate()).getSeconds() <= 0) {
+                    datesOfTransactions.add(trans.get(i).getDate());
+                    ipAddressesList.add(trans.get(i).getIp());
+                    regionsList.add(trans.get(i).getRegion());
+                }
+            }
+        }
+
+        Set<String> uniqueIPs = new HashSet<>(ipAddressesList);
+        Set<String> uniqueRegions = new HashSet<>(regionsList);
+
+//            System.out.println("unique ips: " + uniqueIPs);
+//            System.out.println("unique regions: " + uniqueRegions);
+
+        if (uniqueIPs.size() == 3) {
+            violation.add("ip-correlation");
+            amountIs = "MANUAL_PROCESSING";
+        } else if (uniqueIPs.size() == 4) {
+            violation.add("ip-correlation");
+            amountIs = "PROHIBITED";
+        }
+
+        if (uniqueRegions.size() == 3) {
+//                System.out.println("Test unique regions");
+            violation.add("region-correlation");
+            amountIs = "MANUAL_PROCESSING";
+        } else if (uniqueRegions.size() >= 4) {
+//                System.out.println("Test unique regions");
+            violation.add("region-correlation");
+            amountIs = "PROHIBITED";
+        }
+        if (violation.isEmpty()) {
+            amountIs = "ALLOWED";
+        }
+
+//        System.out.println("dates: " + datesOfTransactions);
+//        System.out.println("ips: " + ipAddressesList);
+//        System.out.println("regions: " + regionsList);
+//        System.out.println();
+
+        datesOfTransactions.clear();
+        ipAddressesList.clear();
+        regionsList.clear();
+        return amountIs;
+    }
+    public List<Transaction> findAllTransactions(String number) {
+        List<Transaction> trans = transactionRepository.findByNumberIgnoreCaseOrderByIdDesc(number);
+        Map<String, String> map = new LinkedHashMap();
+
+        for (int i = 0; i < trans.size(); i++) {
+            System.out.println(trans.get(i).getDate());
+            if (Duration.between(trans.get(0).getDate(), trans.get(i).getDate()).getSeconds()*(-1) < 3600) {
+
+            }
+        }
+//
+//        System.out.println(datesOfTransactions);
+//        System.out.println(ipAddressesList);
+//        System.out.println(regionsList);
+
+        return transactionRepository.findByNumberIgnoreCaseOrderByIdDesc(number);
     }
     /**
      * Process an amount.

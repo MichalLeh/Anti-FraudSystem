@@ -100,4 +100,13 @@ public class TransactionController {
     public List<Card> getCards() {
         return transactionService.findAllCards();
     }
+    /**
+     * Get card(s).
+     *
+     * @return A list of all cards in database
+     */
+    @GetMapping("/transactions/{number}")
+    public List<Transaction> getTransactions(@PathVariable String number) {
+        return transactionService.findAllTransactions(number);
+    }
 }
