@@ -221,9 +221,9 @@ or
 - If the validation process was successful, the endpoint should respond with the status `HTTP OK` `200`;
 - In case of wrong data in the request, the endpoint should respond with the status `HTTP BAD REQUEST` `400`;
 - If the result is `ALLOWED`, the `info` field must be set to `none` (a string value);
-- A transaction containing a card number is `PROHIBITED` if:
-    1. Transaction containing a card number is set to `MANUAL_PROCESSING` if there are transactions from more than 3 regions/IP addresses (count  == 3) of the world other than the region/IP addresses of the transaction that are being verified in the last hour in the transaction history;
-    2. Transaction containing a card number is set to `PROHIBITED` if there are transactions from more than 3 regions/IP addresses (count > 3) of the world other than the region/IP addresses of the transaction that are being verified in the last hour in the transaction history;
+- A transaction containing a card number is set to:
+    1. `MANUAL_PROCESSING` if there are transactions from 3 different regions/IP addresses (count == 3) of the world other than the region/IP addresses of the transaction that are being verified in the last hour in the transaction history;
+    2. `PROHIBITED` if there are transactions from more than 3 different regions/IP addresses (count > 3) of the world other than the region/IP addresses of the transaction that are being verified in the last hour in the transaction history;
 - In the case of the `PROHIBITED` or `MANUAL_PROCESSING` result, the `info` field must contain the reason for rejecting the transaction. The reason must be separated by `,` and sorted alphabetically. For example, `amount, card-number, ip, ip-correlation, region-correlation`;
 - IP addresses are checked for compliance with IPv4. Any address following this format consists of four series of numbers from 0 to 255 separated by dots;
 - Card numbers must be checked according to the Luhn algorithm.
