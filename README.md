@@ -28,9 +28,9 @@ like [Postman](https://www.getpostman.com/).
 ### Processes
 
 - [Registration](#registration)
-- [Post a new transaction](#post-a-new-transaction)
 - [Get all users](#get-all-users)
 - [Delete an user](#delete-an-user)
+- [Post a new transaction](#post-a-new-transaction)
 
 
 ## API Endpoints
@@ -38,9 +38,11 @@ like [Postman](https://www.getpostman.com/).
 | Endpoint                                            | Anonymous | MERCHANT | ADMINISTRATOR | SUPPORT |
 |-----------------------------------------------------|-----------|----------|---------------|---------|
 | POST /api/auth/user                                 | +         | +        | +             | +       |
-| POST /api/antifraud/transaction                     | -         | -        | +             | -       |
 | GET /api/auth/list                                  | -         | -        | +             | +       |
-| DELETE /api/auth/user/{username}                    | -         | +        | -             | -       |
+| DELETE /api/auth/user/{username}                    | -         | -        | +             | -       |
+| PUT /api/auth/access                                | -         | -        | +             | -       |
+| PUT /api/auth/role                                  | -         | -        | +             | -       |
+| POST /api/antifraud/transaction                     | -         | +        | -             | -       |
 | POST, DELETE, GET /api/antifraud/suspicious-ip{ip}  | -         | -        | -             | +       |
 | POST, DELETE, GET /api/antifraud/stolencard/{number}| -         | -        | -             | +       |
 
@@ -85,6 +87,53 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 }
 ```
 
+#### Get all users
+
+#### Objectives
+
+- The endpoint must respond with the `HTTP OK` status `200` and the body with an array of objects representing the users sorted by ID in ascending order. Return an empty JSON array if there's no information;
+
+`GET /api/auth/list` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+[
+  {
+    "name":"John Doe",
+    "username":"JohnDoe",
+    "role": "ADMINISTRATOR"
+  },
+  {
+    "name":"JohnDoe2",
+    "username":"JohnDoe2",
+    "role": "MERCHANT"
+  }
+]
+```
+
+#### Delete an user
+
+#### Objectives
+
+- The endpoint must delete the user and respond with the `HTTP OK` status `200`;
+- If a user is not found, respond with the `HTTP NOT FOUND` status `404`;
+
+`DELETE /api/auth/user/johndoe` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+{
+   "username": "JohnDoe",
+   "status": "Deleted successfully!"
+}
+```
+
 #### Post a new transaction
 
 #### Objectives
@@ -126,48 +175,3 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 }
 ```
 
-#### Get all users
-
-#### Objectives
-
-- The endpoint must respond with the `HTTP OK` status `200` and the body with an array of objects representing the users sorted by ID in ascending order. Return an empty JSON array if there's no information;
-
-`GET /api/auth/list` request
-
-*Response:* `200 OK`
-
-*Response body:*
-
-```
-[
-  {
-    "name":"John Doe",
-    "username":"JohnDoe",
-    "role": "ADMINISTRATOR"
-  },
-  {
-    "name":"JohnDoe2",
-    "username":"JohnDoe2",
-    "role": "MERCHANT"
-  }
-]
-```
-
-#### Delete an user
-
-#### Objectives
-
-- The endpoint must delete the user and respond with the `HTTP OK` status `200`;
-
-`DELETE /api/auth/user/johndoe` request
-
-*Response:* `200 OK`
-
-*Response body:*
-
-```
-{
-   "username": "JohnDoe",
-   "status": "Deleted successfully!"
-}
-```
