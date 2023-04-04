@@ -120,6 +120,11 @@ _'+' means the user with given role can access given endpoint. '-' means the use
   }
 ]
 ```
+or
+
+```
+[]
+```
 
 #### Delete an user
 
@@ -254,6 +259,27 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 - If the IP is already in the database, respond with the `HTTP CONFLICT` status `409`;
 - If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
 
+`POST /api/antifraud/suspicious-ip` request
+
+*Request body:*
+
+```
+{
+   "ip": "192.168.1.1"
+}
+```
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+{
+   "id": 1,
+   "ip": "192.168.1.1"
+}
+```
+
 #### Delete a suspicious IP address
 
 #### Objectives
@@ -263,6 +289,18 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 - If an IP is not found in the database, respond with the `HTTP NOT FOUND` status `404`;
 - If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
 
+`DELETE /api/antifraud/suspicious-ip/192.168.1.1` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+{
+   "status": "IP 192.168.1.1 successfully removed!"
+}
+```
+
 #### Get all suspicious IP addresses
 
 #### Objectives
@@ -270,6 +308,29 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 - Endpoint that shows IP addresses stored in the database;
 - If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing IP address sorted by ID in ascending order (or an empty array if the database is empty);
 
+`GET /api/antifraud/suspicious-ip` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+[
+    {
+        "id": 1,
+        "ip": "192.168.1.1"
+    },
+     ...
+    {
+        "id": 100,
+        "ip": "192.168.1.254"
+    }
+]
+```
+or
+```
+[]
+```
 #### Save a stolen card
 
 #### Objectives
@@ -278,7 +339,28 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 - If successful, respond with the `HTTP OK` status `200`;
 - If a card is already in the database, respond with the `HTTP CONFLICT` status `409`;
 - If a card has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
-- 
+
+`POST /api/antifraud/stolencard` request
+
+*Request body:*
+
+```
+{
+   "number": "4000008449433403"
+}
+```
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+{
+   "id": 1,
+   "number": "4000008449433403"
+}
+```
+
 #### Delete a stolen card
 
 #### Objectives
@@ -288,9 +370,45 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 - If a card number is not found in the database, respond with the `HTTP NOT FOUND` status `404`;
 - If a card number has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
 
+`DELETE /api/antifraud/suspicious-ip/4000008449433403` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+{
+   "status": "Card 4000008449433403 successfully removed!"
+}
+```
+
 #### Get all stolen cards
 
 #### Objectives
 
 - Endpoint that shows card numbers stored in the database;
 - If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing card numbers sorted by ID in ascending order (or an empty array if the database is empty);
+
+`GET /api/antifraud/stolencard` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+[
+    {
+        "id": 1,
+        "number": "4000008449433403"
+    },
+     ...
+    {
+        "id": 100,
+        "number": "4000009455296122"
+    }
+]
+```
+or
+```
+[]
+```
