@@ -191,6 +191,15 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 
 *Response body:*
 
+```
+{
+   "id": 1,
+   "name": "John Doe 2",
+   "username": "JohnDoe2",
+   "role": "SUPPORT"
+}
+```
+
 #### Post a new transaction
 
 #### Objectives
