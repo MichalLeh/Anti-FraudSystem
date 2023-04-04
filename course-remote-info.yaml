@@ -3,23 +3,23 @@ hyperskill_project:
   ide_files: https://stepik.org/media/attachments/lesson/657120/additional_files.json
   is_template_based: false
   use_ide: true
-update_date: "Tue, 14 Mar 2023 08:06:43 UTC"
+update_date: "Tue, 04 Apr 2023 07:18:58 UTC"
 stages:
 - id: 1161
   step: 18067
-  is_completed: false
+  is_completed: true
 - id: 1162
   step: 18068
-  is_completed: false
+  is_completed: true
 - id: 1163
   step: 18069
-  is_completed: false
+  is_completed: true
 - id: 1164
   step: 18070
-  is_completed: false
+  is_completed: true
 - id: 1165
   step: 18071
-  is_completed: false
+  is_completed: true
 - id: 1166
   step: 18072
   is_completed: false
@@ -114,7 +114,7 @@ topics:
   - title: Authorization
     theory_id: 15269
   - title: Spring actuator
-    theory_id: 16413
+    theory_id: 27488
   - title: Data Transfer Object in Spring
     theory_id: 25613
   - title: Computer programming
@@ -217,14 +217,14 @@ topics:
     theory_id: 5076
   - title: External resources
     theory_id: 6216
+  - title: Web development
+    theory_id: 13931
   - title: Pseudocode
     theory_id: 15090
   - title: Pseudocode basics
     theory_id: 19510
   - title: Complex constructions in pseudocode
     theory_id: 20922
-  - title: Web development
-    theory_id: 13931
   - title: Libraries
     theory_id: 8504
   - title: Frameworks
@@ -261,8 +261,6 @@ topics:
     theory_id: 6901
   - title: Introduction to software architecture
     theory_id: 15368
-  - title: Reducing boilerplate code with Lombok
-    theory_id: 13983
   - title: Design principles
     theory_id: 8956
   - title: JSON
@@ -309,6 +307,8 @@ topics:
     theory_id: 3557
   - title: Collections and thread-safety
     theory_id: 4984
+  - title: MVC
+    theory_id: 17197
   - title: "Hashing: overview"
     theory_id: 9831
   - title: Hash function
@@ -319,8 +319,6 @@ topics:
     theory_id: 3558
   - title: Thread-safe maps
     theory_id: 17081
-  - title: MVC
-    theory_id: 17197
   - title: Defining classes
     theory_id: 3618
   - title: Constructor
@@ -355,10 +353,6 @@ topics:
     theory_id: 3587
   - title: Interface
     theory_id: 3615
-  - title: toString()
-    theory_id: 3584
-  - title: Records
-    theory_id: 18329
   - title: Boxing and unboxing
     theory_id: 3595
   1:
@@ -388,12 +382,12 @@ topics:
   - title: JPA relationships
     theory_id: 17787
   - title: Cascade operations
-    theory_id: 19203
+    theory_id: 27502
   - title: Many-to-many relationships
     theory_id: 19541
   3:
   - title: POST vs. PUT requests
-    theory_id: 13714
+    theory_id: 27497
   - title: Inner classes
     theory_id: 11505
   4:
