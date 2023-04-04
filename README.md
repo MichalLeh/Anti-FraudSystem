@@ -29,10 +29,8 @@ like [Postman](https://www.getpostman.com/).
 
 - [Registration](#registration)
 - [Post a new transaction](#post-a-new-transaction)
-- [Update a recipe](#update-a-recipe)
-- [Get a recipe by id](#get-a-recipe-by-id)
-- [Get recipes by category](#get-recipes-by-category)
-- [Delete a recipe by id](#Delete-a-recipe-by-id)
+- [Get all users](#get-all-users)
+
 
 ## API Endpoints
 
@@ -125,4 +123,31 @@ _'+' means the user with given role can access given endpoint. '-' means the use
    "result": "ALLOWED",
    "info": "none"
 }
+```
+
+#### Get all users
+
+#### Objectives
+
+- The endpoint must respond with the `HTTP OK` status `200` and the body with an array of objects representing the users sorted by ID in ascending order. Return an empty JSON array if there's no information;
+
+`GET /api/auth/list` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+[
+  {
+    "name":"John Doe",
+    "username":"JohnDoe",
+    "role": "ADMINISTRATOR"
+  },
+  {
+    "name":"JohnDoe2",
+    "username":"JohnDoe2",
+    "role": "MERCHANT"
+  }
+]
 ```
