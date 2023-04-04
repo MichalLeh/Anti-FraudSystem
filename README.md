@@ -244,9 +244,9 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 
 #### Objectives
 
-- Endpoint that saves suspicious IP addresses to the database;
+- Endpoint that saves suspicious IP addresses in the database;
 - If successful, respond with the `HTTP OK` status `200`;
-- If an IP is already in the database, respond with the `HTTP CONFLICT` status `409`;
+- If the IP is already in the database, respond with the `HTTP CONFLICT` status `409`;
 - If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
 
 #### Delete a suspicious IP address
@@ -262,19 +262,30 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 
 #### Objectives
 
-- Endpoint that shows IP addresses in the database;
-- If successful, respond with the `HTTP OK` status `200` and body with an array of JSON objects representing IP address sorted by ID in ascending order (or an empty array if the database is empty);
+- Endpoint that shows IP addresses stored in the database;
+- If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing IP address sorted by ID in ascending order (or an empty array if the database is empty);
 
 #### Save a stolen card
 
 #### Objectives
 
-
+- Endpoint that saves stolen card in the database;
+- If successful, respond with the `HTTP OK` status `200`;
+- If a card is already in the database, respond with the `HTTP CONFLICT` status `409`;
+- If a card has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
+- 
 #### Delete a stolen card
 
 #### Objectives
 
+- Endpoint that deletes card number from the database;
+- If successful, respond with the `HTTP OK` status `200`;
+- If a card number is not found in the database, respond with the `HTTP NOT FOUND` status `404`;
+- If a card number has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
 
 #### Get all stolen cards
 
 #### Objectives
+
+- Endpoint that shows card numbers stored in the database;
+- If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing card numbers sorted by ID in ascending order (or an empty array if the database is empty);
