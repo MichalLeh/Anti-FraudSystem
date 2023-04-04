@@ -35,14 +35,14 @@ like [Postman](https://www.getpostman.com/).
 
 ## API Endpoints
 
-| Endpoint                                        | Anonymous | MERCHANT | ADMINISTRATOR | SUPPORT |
-|-------------------------------------------------|-----------|----------|---------------|---------|
-| POST /api/auth/user                             | +         | +        | +             | +       |
-| POST /api/antifraud/transaction                 | -         | -        | +             | -       |
-| GET /api/auth/list                              | -         | -        | +             | +       |
-| DELETE /api/auth/user/{username}                | -         | +        | -             | -       |
-| POST, DELETE, GET /api/antifraud/suspicious-ip  | -         | -        | -             | +       |
-| POST, DELETE, GET /api/antifraud/stolencard     | -         | -        | -             | +       |
+| Endpoint                                            | Anonymous | MERCHANT | ADMINISTRATOR | SUPPORT |
+|-----------------------------------------------------|-----------|----------|---------------|---------|
+| POST /api/auth/user                                 | +         | +        | +             | +       |
+| POST /api/antifraud/transaction                     | -         | -        | +             | -       |
+| GET /api/auth/list                                  | -         | -        | +             | +       |
+| DELETE /api/auth/user/{username}                    | -         | +        | -             | -       |
+| POST, DELETE, GET /api/antifraud/suspicious-ip{ip}  | -         | -        | -             | +       |
+| POST, DELETE, GET /api/antifraud/stolencard/{number}| -         | -        | -             | +       |
 
 _'+' means the user with given role can access given endpoint. '-' means the user without given role can't access given endpoint._
 
