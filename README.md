@@ -30,6 +30,8 @@ like [Postman](https://www.getpostman.com/).
 - [Registration](#registration)
 - [Get all users](#get-all-users)
 - [Delete an user](#delete-an-user)
+- [Lock/Unlock an user](#lock/unlock-an-user)
+- [Update user role](#Update-user-role)
 - [Post a new transaction](#post-a-new-transaction)
 
 
@@ -133,6 +135,61 @@ _'+' means the user with given role can access given endpoint. '-' means the use
    "status": "Deleted successfully!"
 }
 ```
+
+#### Lock/Unlock an user
+
+#### Objectives
+
+- Endpoint that locks/unlocks users;
+- If successful, respond with the `HTTP OK` status `200`;
+- For safety reasons, `ADMINISTRATOR` cannot be blocked. In this case, respond with the `HTTP BAD REQUEST` status `400`;
+- If a user is not found, respond with `HTTP NOT FOUND` status `404`;
+
+`PUT /api/auth/access` request with the correct authentication under the `ADMINISTRATOR` role:
+
+*Request body:*
+
+```
+{
+   "username": "JohnDoe2",
+   "operation": "UNLOCK"
+}
+```
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+{
+   "status": "User JohnDoe2 unlocked!"
+}
+```
+
+#### Update user role
+
+#### Objectives
+
+- Endpoint that changes user roles;
+- If successful, respond with the `HTTP OK` status `200`;
+- If a user is not found, respond with the `HTTP NOT FOUND` status `404`;
+- If a role is not `SUPPORT` or `MERCHANT`, respond with `HTTP BAD REQUEST` status `400`;
+- If you want to assign a role that has been already provided to a user, respond with the `HTTP CONFLICT` status `409`;
+
+`PUT /api/auth/role` request with the correct authentication under the `ADMINISTRATOR` role:
+
+*Request body:*
+
+```
+{
+   "username": "JohnDoe2",
+   "role": "SUPPORT"
+}
+```
+
+*Response:* `200 OK`
+
+*Response body:*
 
 #### Post a new transaction
 
