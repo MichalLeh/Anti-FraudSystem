@@ -34,6 +34,11 @@ like [Postman](https://www.getpostman.com/).
 - [Update user role](#Update-user-role)
 - [Post a new transaction](#post-a-new-transaction)
 - [Save a suspicious IP address](#save-a-suspicious-IP-address)
+- [Delete a suspicious IP address](#delete-a-suspicious-IP-address)
+- [Get all suspicious IP addresses](#get-all-suspicious-IP-address)
+- [Save a stolen card](#save-a-stolen-card)
+- [Delete a stolen card](#delete-a-stolen-card)
+- [Get all stolen cards](#get-all-stolen-cards)
 
 ## API Endpoints
 
