@@ -30,6 +30,7 @@ like [Postman](https://www.getpostman.com/).
 - [Registration](#registration)
 - [Post a new transaction](#post-a-new-transaction)
 - [Get all users](#get-all-users)
+- [Delete an user](#delete-an-user)
 
 
 ## API Endpoints
@@ -39,7 +40,7 @@ like [Postman](https://www.getpostman.com/).
 | POST /api/auth/user                             | +         | +        | +             | +       |
 | POST /api/antifraud/transaction                 | -         | -        | +             | -       |
 | GET /api/auth/list                              | -         | -        | +             | +       |
-| DELETE /api/auth/user                           | -         | +        | -             | -       |
+| DELETE /api/auth/user/{username}                | -         | +        | -             | -       |
 | POST, DELETE, GET /api/antifraud/suspicious-ip  | -         | -        | -             | +       |
 | POST, DELETE, GET /api/antifraud/stolencard     | -         | -        | -             | +       |
 
@@ -150,4 +151,23 @@ _'+' means the user with given role can access given endpoint. '-' means the use
     "role": "MERCHANT"
   }
 ]
+```
+
+#### Delete an user
+
+#### Objectives
+
+- The endpoint must delete the user and respond with the `HTTP OK` status `200`;
+
+`DELETE /api/auth/user/johndoe` request
+
+*Response:* `200 OK`
+
+*Response body:*
+
+```
+{
+   "username": "JohnDoe",
+   "status": "Deleted successfully!"
+}
 ```
