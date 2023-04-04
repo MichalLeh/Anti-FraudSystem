@@ -67,7 +67,7 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 - If a request contains wrong data, the endpoint must respond with the `BAD REQUEST` status `400`;
 - The first registered user should receive the `ADMINISTRATOR` role; the rest - `MERCHANT`. 
 - In case of authorization violation, respond with the `HTTP FORBIDDEN` status `403`. Mind that only one role can be assigned to a user;
-- All users, except `ADMINISTRATOR`, must be locked immediately after registration; only `ADMINISTRATOR` can unlock users;
+- All users, except `ADMINISTRATOR`, must be locked immediately after registration; only `ADMINISTRATOR` can unlock users.
 
 `POST /api/auth/user` request
 
@@ -98,7 +98,7 @@ _'+' means the user with given role can access given endpoint. '-' means the use
 
 #### Objectives
 
-- The endpoint must respond with the `HTTP OK` status `200` and the body with an array of objects representing the users sorted by ID in ascending order. Return an empty JSON array if there's no information;
+- The endpoint must respond with the `HTTP OK` status `200` and the body with an array of objects representing the users sorted by ID in ascending order. Return an empty JSON array if there's no information.
 
 `GET /api/auth/list` request
 
@@ -131,7 +131,7 @@ or
 #### Objectives
 
 - The endpoint must delete the user and respond with the `HTTP OK` status `200`;
-- If a user is not found, respond with the `HTTP NOT FOUND` status `404`;
+- If a user is not found, respond with the `HTTP NOT FOUND` status `404`.
 
 `DELETE /api/auth/user/johndoe` request
 
@@ -153,7 +153,7 @@ or
 - Endpoint that locks/unlocks users;
 - If successful, respond with the `HTTP OK` status `200`;
 - For safety reasons, `ADMINISTRATOR` cannot be blocked. In this case, respond with the `HTTP BAD REQUEST` status `400`;
-- If a user is not found, respond with `HTTP NOT FOUND` status `404`;
+- If a user is not found, respond with `HTTP NOT FOUND` status `404`.
 
 `PUT /api/auth/access` request with the correct authentication under the `ADMINISTRATOR` role:
 
@@ -184,7 +184,7 @@ or
 - If successful, respond with the `HTTP OK` status `200`;
 - If a user is not found, respond with the `HTTP NOT FOUND` status `404`;
 - If a role is not `SUPPORT` or `MERCHANT`, respond with `HTTP BAD REQUEST` status `400`;
-- If you want to assign a role that has been already provided to a user, respond with the `HTTP CONFLICT` status `409`;
+- If you want to assign a role that has been already provided to a user, respond with the `HTTP CONFLICT` status `409`.
 
 `PUT /api/auth/role` request with the correct authentication under the `ADMINISTRATOR` role:
 
@@ -258,6 +258,7 @@ or
 - If successful, respond with the `HTTP OK` status `200`;
 - If the IP is already in the database, respond with the `HTTP CONFLICT` status `409`;
 - If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
+- IP addresses are checked for compliance with IPv4. Any address following this format consists of four series of numbers from 0 to 255 separated by dots.
 
 `POST /api/antifraud/suspicious-ip` request
 
@@ -287,7 +288,7 @@ or
 - Endpoint that deletes IP addresses from the database;
 - If successful, respond with the `HTTP OK` status `200`;
 - If an IP is not found in the database, respond with the `HTTP NOT FOUND` status `404`;
-- If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
+- If an IP address has the wrong format, respond with the `HTTP BAD REQUEST` status `400`.
 
 `DELETE /api/antifraud/suspicious-ip/192.168.1.1` request
 
@@ -306,7 +307,7 @@ or
 #### Objectives
 
 - Endpoint that shows IP addresses stored in the database;
-- If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing IP address sorted by ID in ascending order (or an empty array if the database is empty);
+- If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing IP address sorted by ID in ascending order (or an empty array if the database is empty).
 
 `GET /api/antifraud/suspicious-ip` request
 
@@ -339,6 +340,7 @@ or
 - If successful, respond with the `HTTP OK` status `200`;
 - If a card is already in the database, respond with the `HTTP CONFLICT` status `409`;
 - If a card has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
+- Card numbers must be checked according to the Luhn algorithm.
 
 `POST /api/antifraud/stolencard` request
 
@@ -368,7 +370,7 @@ or
 - Endpoint that deletes card number from the database;
 - If successful, respond with the `HTTP OK` status `200`;
 - If a card number is not found in the database, respond with the `HTTP NOT FOUND` status `404`;
-- If a card number has the wrong format, respond with the `HTTP BAD REQUEST` status `400`;
+- If a card number has the wrong format, respond with the `HTTP BAD REQUEST` status `400`.
 
 `DELETE /api/antifraud/suspicious-ip/4000008449433403` request
 
@@ -387,7 +389,7 @@ or
 #### Objectives
 
 - Endpoint that shows card numbers stored in the database;
-- If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing card numbers sorted by ID in ascending order (or an empty array if the database is empty);
+- If successful, respond with the `HTTP OK` status `200` and a body with an array of JSON objects representing card numbers sorted by ID in ascending order (or an empty array if the database is empty).
 
 `GET /api/antifraud/stolencard` request
 
