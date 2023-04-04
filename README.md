@@ -240,4 +240,3 @@ _'+' means the user with given role can access given endpoint. '-' means the use
    "info": "none"
 }
 ```
-
